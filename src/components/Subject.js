@@ -5,7 +5,7 @@ class Subject extends Component {
       return (
         <header>
             <h1>
-                {this.props.title}
+                <a href = "/">{this.props.title}</a>
             </h1>
                 {this.props.sub}
         </header>
