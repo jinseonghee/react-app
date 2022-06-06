@@ -1,12 +1,22 @@
 import { Component } from 'react';
 
 class UpdateContent extends Component {
+
+  
     constructor(props){
       super(props);
+      //console.log("title1", this.props.data.title);
+      //console.log("title2", this.props);
+      //console.log("title3", this.data.title);
       this.state = {
         title : this.props.data.title,
         desc : this.props.data.desc
       }
+      this.inputFormHandler = this.inputFormHandler.bind(this);
+    }
+
+    inputFormHandler(e){
+      this.setState({[e.target.name] : e.target.value});
     }
 
     render() {
@@ -34,15 +44,11 @@ class UpdateContent extends Component {
               name = "title" 
               placeholder = "title"
               value = {this.state.title} // props를 쓰면 Read-only이기 때문에 값을 바꿀수 없다.
-              onChange = {function(e){
-                this.setState({title : e.target.value});
-              }.bind(this)} 
+              onChange = {this.inputFormHandler}
               ></input></p>
             <p>
               <textarea 
-              onChange = {function(e){
-                this.setState({desc : e.target.value});
-              }.bind(this)}
+              onChange = {this.inputFormHandler}
               name = "desc"
               placeholder = "description"
               value = {this.state.desc}

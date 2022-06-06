@@ -36,9 +36,6 @@ class App extends Component {
         i = i + 1;
       }
   }
-
-
-
   getContent() {
     var _title, _desc, _article = null;
     if (this.state.mode === 'welcome') {
@@ -46,7 +43,7 @@ class App extends Component {
       _desc = this.state.welcome.desc;
       _article = <ReadContent title = {_title} desc ={_desc}></ReadContent>
     } else if(this.state.mode === 'read') {
-    var _content = this.getReadContent();
+      var _content = this.getReadContent();
       _article = <ReadContent title = {_content.title} desc ={_content.desc}></ReadContent>
     } else if(this.state.mode === 'create') {
         _article = <CreateContent onSubmit = {function(_title, _desc){
@@ -65,7 +62,7 @@ class App extends Component {
             console.log(_title, _desc);
         }.bind(this)}></CreateContent>
     } else if(this.state.mode === 'update') {
-      _content = this.getReadContent();
+       _content = this.getReadContent();
       _article = <UpdateContent date = {_content} onSubmit = {function(_title, _desc){
           //add content to this.state.contents
           this.max_content_id = this.max_content_id + 1;
@@ -84,6 +81,7 @@ class App extends Component {
     }
     return _article;
   }
+
   render() {
     return ( //react는 하나의 태그 안쪽에 나머지 태그가 있어야 함. 기징 바깥쪽에는 태그 하나만 있어야 한다.
       <div className="App"> 
