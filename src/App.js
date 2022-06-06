@@ -3,14 +3,17 @@ import { Component } from 'react';
 import { extend } from 'colord';
 import TOC from './components/TOC';
 import Subject from './components/Subject';
-import Content from './components/Content';
+import ReadContent from './components/ReadContent';
+import CreateContent from './components/CreateContent';
+import Control from './components/Control';
 
 
 class App extends Component {
   constructor(props) { //component의 render 함수가 실행 되기 전 component를 초기화 시켜주고 싶은 값들은 constructor에 넣어준다.
     super(props);
+    this.max_content_id = 3; //ui에 영향을 주는 값이 아니기 때문에 state로 할당 안해도 된다.
     this.state = {
-      mode : 'read',
+      mode : 'create',
       selected_contend_id : 2,
       subject : { title : 'WEB', sub : 'World Wide Web' },
       welcome : {title : 'Welcome', desc : 'Hello React!!!'},
@@ -23,11 +26,12 @@ class App extends Component {
   }
   render() {
 
-    var _title, _desc = null;
+    var _title, _desc, _article = null;
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
-    }else if(this.state.mode === 'read') {
+      _article = <ReadContent title = {_title} desc ={_desc}></ReadContent>
+    } else if(this.state.mode === 'read') {
       var i = 0;
       while(i < this.state.contents.length){
         var data = this.state.contents[i];
@@ -38,8 +42,24 @@ class App extends Component {
         }
         i = i + 1;
       }
+      _article = <ReadContent title = {_title} desc ={_desc}></ReadContent>
+    } else if(this.state.mode === 'create') {
+        _article = <CreateContent onSubmit = {function(_title, _desc){
+            //add content to this.state.contents
+            this.max_content_id = this.max_content_id + 1;
+            // this.state.contents.push(
+            //   {id : this.max_content_id, title : _title, desc : _desc}
+            // );
+            var _contents = this.state.contents.concat(
+              {id : this.max_content_id, title : _title, desc : _desc}
+            );
+            this.setState({
+              contents : _contents
+            });
+            console.log(_title, _desc);
+        }.bind(this)}></CreateContent>
     }
-  return ( //react는 하나의 태그 안쪾에 나머지 태그가 있어야 함. 기징 바깥쪽에는 태그 하나만 있어야 한다.
+  return ( //react는 하나의 태그 안쪽에 나머지 태그가 있어야 함. 기징 바깥쪽에는 태그 하나만 있어야 한다.
     <div className="App"> 
       <Subject title = {this.state.subject.title} 
                sub = {this.state.subject.sub} 
@@ -75,7 +95,13 @@ class App extends Component {
         }.bind(this)}
           data = {this.state.contents}
       ></TOC>
-      <Content title = {_title} desc ={_desc}></Content>
+      <Control
+          onChangeMode = {function(_mode) {
+            this.setState({
+              mode : _mode
+            });
+          }.bind(this)}></Control>
+        {_article}
     </div>
     );
   }
