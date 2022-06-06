@@ -9,6 +9,7 @@ class UpdateContent extends Component {
       //console.log("title2", this.props);
       //console.log("title3", this.data.title);
       this.state = {
+        id : this.props.data.id,
         title : this.props.data.title,
         desc : this.props.data.desc
       }
@@ -32,12 +33,15 @@ class UpdateContent extends Component {
                 onSubmit = {function(e){
                 e.preventDefault();
                 this.props.onSubmit(
-                  e.target.title.value,
-                  e.target.desc.value
+                  this.state.id,
+                  this.state.title,
+                  this.state.desc
+                  //e.target.title.value,
+                  //e.target.desc.value
                 );
-                //alert("submit!!!!!");
                 }.bind(this)}
           >
+            <input type = "hidden" name = "id" value = {this.state.id}></input> {/*어디를 수정할지를 식별하기 위한 hidden tag 필요*/}
             <p>
               <input 
               type = "text" 
