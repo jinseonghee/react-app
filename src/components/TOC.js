@@ -7,8 +7,17 @@ class TOC extends Component {
       var data = this.props.data; //App.js의 render 함수 안에 props로 data가 선언되어 있음.
       var i = 0;
       while (i < data.length) {
-        lists.push(<li key = {data[i].id}><a href ={"/content/"+data[i].id}>{data[i].title}</a></li>)
-        i = i + 1;
+        lists.push(<li key = {data[i].id}>
+          <a 
+            href ={"/content/"+data[i].id}
+            data-id = {data[i].id}
+            onClick = {function(e) {
+              e.preventDefault();
+              this.props.onChangePage(e.target.dataset.id); //App.js 에 있는 onChagePage의 props
+            }.bind(this)}
+           >   
+            {data[i].title}</a></li>)
+            i = i + 1;
       }
       return (
         <nav>
